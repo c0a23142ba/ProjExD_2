@@ -2,6 +2,7 @@ import os
 import sys
 import random
 import pygame as pg
+import time
 
 
 WIDTH, HEIGHT = 1600, 900
@@ -20,7 +21,12 @@ def check_bound(obj_rct:pg.Rect) -> tuple[bool,bool]:
     if obj_rct.top < 0 or HEIGHT < obj_rct.bottom:
         tate =False
     return yoko, tate
-
+'''
+def drawract():
+    screen = pg.display.set_mode((1600,900))
+    rect = pg.Surface((0,0))
+    Draw_rect = pg.draw.ract(rect,(0,0,0),(10,10),10)
+'''
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -37,7 +43,19 @@ def main():
     bd_rct = bd_img.get_rect()
     bd_rct.center = random.randint(0, WIDTH), random.randint(0, HEIGHT)
     vx, vy = +5,+5 #横方向速度、縦方向速度
-
+    def drawract():
+        shikaku = pg.Surface((WIDTH,HEIGHT))
+        pg.draw.rect(shikaku,(0,0,0),pg.Rect(0,0,WIDTH,HEIGHT))
+        shikaku.set_alpha(200)
+        screen.blit(shikaku,(0,0))
+        fonto = pg.font.Font(None,80)
+        txt = fonto.render("Game Over",True,(255,255,255))
+        screen.blit(txt,[WIDTH/2,HEIGHT/2])   
+        kn_img = pg.image.load("fig/8.png")
+        screen.blit(kn_img,[900,600])
+        pg.display.update()
+        time.sleep(5)
+        return
     clock = pg.time.Clock()
     tmr = 0
     while True:
@@ -45,8 +63,10 @@ def main():
             if event.type == pg.QUIT: 
                 return
         if kk_rct.colliderect(bd_rct):
+            drawract()
             print("Game Over")
-            return
+            break
+
         screen.blit(bg_img, [0, 0]) 
 
         #こうかとんの移動と表示
@@ -68,6 +88,7 @@ def main():
         if check_bound(kk_rct) != (True, True):
             kk_rct.move_ip(-sum_mv[0],-sum_mv[1])
         screen.blit(kk_img, kk_rct)
+
         #爆弾の移動と表示
         bd_rct.move_ip(vx, vy)
         screen.blit(bd_img, bd_rct)
