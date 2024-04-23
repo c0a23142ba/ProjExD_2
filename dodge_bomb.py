@@ -50,9 +50,11 @@ def main():
         screen.blit(shikaku,(0,0))
         fonto = pg.font.Font(None,80)
         txt = fonto.render("Game Over",True,(255,255,255))
-        screen.blit(txt,[WIDTH/2,HEIGHT/2])   
+        screen.blit(txt,[600,HEIGHT/2])   
         kn_img = pg.image.load("fig/8.png")
-        screen.blit(kn_img,[900,600])
+        screen.blit(kn_img,[1000,HEIGHT/2])
+        kn_img = pg.image.load("fig/8.png")
+        screen.blit(kn_img,[500,HEIGHT/2])
         pg.display.update()
         time.sleep(5)
         return
