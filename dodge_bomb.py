@@ -5,7 +5,6 @@ import pygame as pg
 
 
 WIDTH, HEIGHT = 1600, 900
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
 DELTA = { #移動量辞書(押下キー:移動タプル)
     pg.K_UP: (0,-5),
     pg.K_DOWN: (0,+5),
@@ -30,14 +29,13 @@ def main():
     kk_img = pg.transform.rotozoom(pg.image.load("fig/3.png"), 0, 2.0)
     kk_rct = kk_img.get_rect()
     kk_rct.center = 900, 400
-    clock = pg.time.Clock()
-    tmr = 0
+    
     #ここから爆弾の設定
     bd_img = pg.Surface((20,20))
     bd_img.set_colorkey((0,0,0))
     pg.draw.circle(bd_img,(255,0,0),(10,10),10)
-    bd_rct = bd_img.get_rect
-    bd_rct.center = random.randint(0,WIDTH),random.randint(HEIGHT,0)
+    bd_rct = bd_img.get_rect()
+    bd_rct.center = random.randint(0, WIDTH), random.randint(0, HEIGHT)
     vx, vy = +5,+5 #横方向速度、縦方向速度
 
     clock = pg.time.Clock()
@@ -46,6 +44,9 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
+        if kk_rct.colliderect(bd_rct):
+            print("Game Over")
+            return
         screen.blit(bg_img, [0, 0]) 
 
         #こうかとんの移動と表示
@@ -69,10 +70,10 @@ def main():
         screen.blit(kk_img, kk_rct)
         #爆弾の移動と表示
         bd_rct.move_ip(vx, vy)
-        screen.blit(bd_img, kk_rct)
+        screen.blit(bd_img, bd_rct)
         yoko, tate = check_bound(bd_rct)
         if not yoko:
-            vx *= 1
+            vx *= -1
         if not tate:
             vy *= -1
         pg.display.update()
