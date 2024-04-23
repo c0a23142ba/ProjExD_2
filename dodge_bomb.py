@@ -44,17 +44,21 @@ def main():
     bd_rct.center = random.randint(0, WIDTH), random.randint(0, HEIGHT)
     vx, vy = +5,+5 #横方向速度、縦方向速度
     def drawract():
+        #ブラックアウト
         shikaku = pg.Surface((WIDTH,HEIGHT))
         pg.draw.rect(shikaku,(0,0,0),pg.Rect(0,0,WIDTH,HEIGHT))
         shikaku.set_alpha(200)
         screen.blit(shikaku,(0,0))
+        #GameOver表示
         fonto = pg.font.Font(None,80)
         txt = fonto.render("Game Over",True,(255,255,255))
-        screen.blit(txt,[600,HEIGHT/2])   
+        screen.blit(txt,[660,HEIGHT/2])  
+        #泣きこうかとんその1 
         kn_img = pg.image.load("fig/8.png")
-        screen.blit(kn_img,[1000,HEIGHT/2])
+        screen.blit(kn_img,[1050,HEIGHT/2])
+        #泣きこうかとんその2
         kn_img = pg.image.load("fig/8.png")
-        screen.blit(kn_img,[500,HEIGHT/2])
+        screen.blit(kn_img,[550,HEIGHT/2]) 
         pg.display.update()
         time.sleep(5)
         return
